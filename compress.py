@@ -9,7 +9,7 @@ import numpy as np
 
 def load_image(path):
     """ Load image from path. Return a numpy array """
-    image = Image.open(image_path)
+    image = Image.open(path)
     return np.asarray(image) / 255
 
 
@@ -49,9 +49,9 @@ def find_k_means(X, K, max_iters=10):
     for _ in range(max_iters):
         idx = find_closest_centroids(X, centroids)
         centroids = compute_means(X, idx, K)
-        if centroids == previous_centroids:
+        if (previous_centroids==centroids).all():
             # The centroids aren't moving anymore.
-            return centroids, idx
+            return centroids
         else:
             previous_centroids = centroids
 
