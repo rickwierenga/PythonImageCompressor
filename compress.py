@@ -7,9 +7,9 @@ from PIL import Image
 import numpy as np
 
 
-def load_image(path):
+def load_image():
     """ Load image from path. Return a numpy array """
-    image = Image.open(path)
+    image = Image.open(str(input("Enter the path:"))
     return np.asarray(image) / 255
 
 
@@ -59,14 +59,9 @@ def find_k_means(X, K, max_iters=10):
 
 
 def main():
-    try:
-        image_path = sys.argv[1]
-        assert os.path.isfile(image_path)
-    except (IndexError, AssertionError):
-        print('Please specify an image')
-
+  
     # Load the image
-    image = load_image(image_path)
+    image = load_image()
     w, h, d = image.shape
     print('Image found with width: {}, height: {}, depth: {}'.format(w, h, d))
 
@@ -77,18 +72,20 @@ def main():
     # Get colors
     print('Runnign K-means')
     colors, _ = find_k_means(X, K, max_iters=20)
-
+    print)('Finding Closest Centroids')
     # Indexes for color for each pixel
     idx = find_closest_centroids(X, colors)
-
+    print('Reconstructing the image')
     # Reconstruct the image
     idx = np.array(idx, dtype=np.uint8)
     X_reconstructed = np.array(colors[idx, :] * 255, dtype=np.uint8).reshape((w, h, d))
     compressed_image = Image.fromarray(X_reconstructed)
 
     # Save reconstructed image to disk
+    print('Saving Image')
     compressed_image.save('out.png')
-
+    print('Dsplaying Image')
+    compressed_image.show()
 
 if __name__ == '__main__':
     main()
