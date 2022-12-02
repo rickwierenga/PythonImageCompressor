@@ -75,7 +75,7 @@ def main():
     K = 40 # the number of colors in the image
 
     # Get colors
-    print('Runnign K-means')
+    print('Running K-means')
     colors, _ = find_k_means(X, K, max_iters=20)
 
     # Indexes for color for each pixel
